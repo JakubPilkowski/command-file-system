@@ -1,0 +1,27 @@
+{
+  "name": "kalabanga-react-files",
+  "version": "1.0.0",
+  "description": "cli tool for automatic react directories creation",
+  "main": "./bin/index.js",
+  "bin": {
+    "react-files": "./bin/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakubPilkowski/kalabanga-node-cli.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakubPilkowski/kalabanga-node-cli/issues"
+  },
+  "homepage": "https://github.com/JakubPilkowski/kalabanga-node-cli#readme",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "yargs": "^17.6.2"
+  }
+}
