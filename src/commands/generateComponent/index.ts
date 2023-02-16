@@ -4,12 +4,11 @@ import generateComponentBuilder from "./generateComponentBuilder";
 import generateComponentHandler from "./generateComponentHandler";
 
 export const GENERATE_COMPONENT_SCRIPT = [
-  "generate-component [name]",
-  "gc [name]",
+  "generate-component <name>",
+  "gc <name>",
 ];
 
-export const GENERATE_COMPONENT_DESCRIPTION =
-  "Generate react component directory";
+export const GENERATE_COMPONENT_DESCRIPTION = "Generate jsx/tsx component file";
 
 export default function generateComponent(): ICommand {
   return {
