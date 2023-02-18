@@ -8,4 +8,12 @@ export type GenerateComponentArgs = {
    * Name of component in CamelCase format
    */
   name: string;
+  /**
+   * Whether return memorized jsx component
+   */
+  withMemo: boolean;
+  /**
+   * Whether jsx file has got defined properties
+   */
+  withProps: boolean;
 };

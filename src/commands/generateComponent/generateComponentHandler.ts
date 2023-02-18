@@ -5,36 +5,39 @@ import jsxComponentTemplate from "templates/componentTemplates/jsx";
 import tsxComponentTemplate from "templates/componentTemplates/tsx";
 import convertVariables from "utils/convertVariables";
 import { GenerateComponentArgs } from "./generateComponent.types";
+import convertTernaries from "utils/convertTernaries";
 
 export default function generateComponentHandler(
   args: ArgumentsCamelCase<GenerateComponentArgs>
 ): void | Promise<void> {
-  // console.log("args", args);
-  const { name, extension } = args;
+  const { name, extension, withMemo, withProps } = args;
 
   const template =
     extension === "tsx" ? tsxComponentTemplate : jsxComponentTemplate;
 
   /**
-   * Step 1
    * converting variables
    */
-  const convertedTemplate = convertVariables(template, { name });
-
-  console.log("convertedTemplate", convertedTemplate);
-
-  const templateString = convertedTemplate.join("\n");
+  const withVariables = convertVariables(template, { name });
 
   /**
-   * Step 2
+   * converting ternaries
+   */
+
+  const withTernaries = convertTernaries(withVariables, {
+    withMemo,
+    withProps,
+  });
+
+  /**
+   * Step
    * creating file
    */
+  const templateString = withTernaries.join("\n");
 
   fs.writeFile(`${name}.${extension}`, templateString, (err) => {
     if (err) {
       console.log("error", err);
     }
   });
-
-  //   console.log(`Creating component ${args.name}`);
 }

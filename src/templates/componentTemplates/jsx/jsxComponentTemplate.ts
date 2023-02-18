@@ -1,10 +1,15 @@
 import ITemplate from "core/ITemplate";
 
 export default <ITemplate>[
-  "import React, { memo } from 'react';",
+  "import React {?withMemo|,{ memo }?} from 'react';",
   "",
-  "const {{name}} = () => <div></div>;",
+  //   "[%scripts%]",
+  "const {{name}} = () => {",
+  //   "[%body%]",
+  "return <div></div>;",
+  //   "return <div>[%html%]</div>;",
+  "};",
   "",
-  "export default memo({{name}});",
+  "export default {?withMemo|memo({{name}})|{{name}}?};",
   "",
 ];

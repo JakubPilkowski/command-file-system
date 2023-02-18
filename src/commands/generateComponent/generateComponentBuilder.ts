@@ -14,6 +14,21 @@ export default function generateComponentBuilder(yargs: Argv): Argv {
     choices: ["jsx", "tsx"],
   });
 
+  yargs.option("withMemo", {
+    alias: "withMemo",
+    default: false,
+    type: "boolean",
+    description: "Whether return memorized jsx function",
+  });
+
+  yargs.option("withProps", {
+    alias: "withProps",
+    default: false,
+    type: "boolean",
+    description:
+      "Whether implement props for component. Works only with tsx extension",
+  });
+
   yargs.check((argv) => {
     const name = argv.name as string;
     if (!pascalCase.test(name)) {

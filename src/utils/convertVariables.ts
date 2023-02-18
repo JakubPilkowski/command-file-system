@@ -5,16 +5,21 @@ export default function convertVariables(
   template: ITemplate,
   variables: Record<string, string>
 ): ITemplate {
+  //   console.log("template", template);
   const newTemplate = template.map((line) => {
-    console.log("line", line);
-    const newLine = line.replace(variableFormat, (match) => {
-      const variableName = variableFormat.exec(match)[1];
-      if (!variables.hasOwnProperty(variableName)) {
+    // console.log("line", line);
+    const newLine = line.replace(variableFormat, (match, name) => {
+      //   console.log("match", match);
+      //   console.log("args", args);
+      //   const variableName = variableFormat.exec(match);
+      //   console.log("variableName", variableName);
+      //   if (!variableName) return "";
+      if (!variables.hasOwnProperty(name)) {
         throw new Error(
-          `There is not defined ${variableName} property in ${variables} for template: ${template}`
+          `There is not defined ${name} property in ${variables} for template: ${template}`
         );
       }
-      return variables[variableName];
+      return variables[name];
     });
     return newLine;
   });

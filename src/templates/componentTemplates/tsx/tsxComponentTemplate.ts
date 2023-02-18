@@ -1,12 +1,12 @@
 import ITemplate from "core/ITemplate";
 
 export default <ITemplate>[
-  "[?jsxRuntime|import React,?] { FC[?isMemo|,memo?] } from 'react';",
+  "import React, { FC{?withMemo|, memo?} } from 'react';",
   "",
-  "const {{name}}: FC[?hasProps|<{{name}}Props>?] = () => {",
+  "const {{name}}: FC{?withProps|<{{name}}Props>?} = () => {",
   "  return <div></div>;",
   "};",
   "",
-  "export default [?isMemo|memo({{name}})|{{name}}?];",
+  "export default {?withMemo|memo({{name}})|{{name}}?};",
   "",
 ];
