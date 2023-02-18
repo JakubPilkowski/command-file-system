@@ -8,7 +8,13 @@
     "outDir": "bin",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "baseUrl": "./src",
+    "paths": {
+      "core/*": ["core/*"],
+      "templates/*": ["templates/*"],
+      "utils/*": ["utils/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -16,7 +16,6 @@ export default function generateComponentBuilder(yargs: Argv): Argv {
 
   yargs.check((argv) => {
     const name = argv.name as string;
-    console.log();
     if (!pascalCase.test(name)) {
       throw new Error("Component name must be in CamelCase!");
     } else {
