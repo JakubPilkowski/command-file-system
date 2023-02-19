@@ -10,30 +10,52 @@ import convertTernaries from "utils/convertTernaries";
 export default function generateComponentHandler(
   args: ArgumentsCamelCase<GenerateComponentArgs>
 ): void | Promise<void> {
-  const { name, extension, withMemo, withProps } = args;
+  const { name, extension, withMemo, withProps, withForwardRef, tag } = args;
 
   const template =
-    extension === "tsx" ? tsxComponentTemplate : jsxComponentTemplate;
+    extension === "tsx"
+      ? tsxComponentTemplate({
+          name,
+          withMemo,
+          withProps,
+          withForwardRef,
+          imports: [],
+          children: [],
+          body: [],
+          className: "",
+          tag,
+        })
+      : jsxComponentTemplate({
+          name,
+          withMemo,
+          withProps,
+          withForwardRef,
+          imports: [],
+          children: [],
+          body: [],
+          className: "",
+          tag,
+        });
 
-  /**
-   * converting variables
-   */
-  const withVariables = convertVariables(template, { name });
+  // /**
+  //  * converting variables
+  //  */
+  // const withVariables = convertVariables(template, { name });
 
-  /**
-   * converting ternaries
-   */
+  // /**
+  //  * converting ternaries
+  //  */
 
-  const withTernaries = convertTernaries(withVariables, {
-    withMemo,
-    withProps,
-  });
+  // const withTernaries = convertTernaries(withVariables, {
+  //   withMemo,
+  //   withProps,
+  // });
 
   /**
    * Step
    * creating file
    */
-  const templateString = withTernaries.join("\n");
+  const templateString = template.join("\n");
 
   fs.writeFile(`${name}.${extension}`, templateString, (err) => {
     if (err) {

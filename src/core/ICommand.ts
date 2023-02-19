@@ -1,17 +1,12 @@
-import {
-  ArgumentsCamelCase,
-  BuilderCallback,
-  CommandBuilder,
-  MiddlewareFunction,
-} from "yargs";
+import { ArgumentsCamelCase, BuilderCallback, MiddlewareFunction } from "yargs";
+import IYargsArgs from "./IBase";
 
-type ICommand<T = Record<string, any>, U = T> = {
+type ICommand = {
   name: string | ReadonlyArray<string>;
   description: string;
-  builder?: BuilderCallback<T, U>;
-  // builder?: CommandBuilder<T, U>;
-  handler: (args: ArgumentsCamelCase<U>) => void | Promise<void>;
-  middlewares?: Array<MiddlewareFunction<U>>;
+  builder?: BuilderCallback<IYargsArgs, IYargsArgs>;
+  handler: (args: ArgumentsCamelCase<IYargsArgs>) => void | Promise<void>;
+  middlewares?: Array<MiddlewareFunction<IYargsArgs>>;
 };
 
 export default ICommand;

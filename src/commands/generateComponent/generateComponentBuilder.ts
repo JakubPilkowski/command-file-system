@@ -1,10 +1,12 @@
 import { Argv } from "yargs";
-import { pascalCase } from "../../utils/regexs";
+
+import { pascalCase } from "utils/regexs";
+import htmlElementsList from "utils/htmlElementsList";
 
 export default function generateComponentBuilder(yargs: Argv): Argv {
   yargs.positional("name", {
     describe: "Component name in PascalCase",
-    // type: "string",
+    type: "string",
   });
   yargs.option("extension", {
     alias: "ext",
@@ -27,6 +29,21 @@ export default function generateComponentBuilder(yargs: Argv): Argv {
     type: "boolean",
     description:
       "Whether implement props for component. Works only with tsx extension",
+  });
+
+  yargs.option("withForwardRef", {
+    alias: "withForwardRef",
+    default: false,
+    type: "boolean",
+    description: "Whether wrap component in forwardRef",
+  });
+
+  yargs.option("tag", {
+    alias: "t",
+    default: "div",
+    type: "string",
+    description: "Tag of main element of component",
+    choices: htmlElementsList,
   });
 
   yargs.check((argv) => {

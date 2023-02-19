@@ -1,3 +1,4 @@
 import generateComponent from "./generateComponent";
+import generateIndex from "./generateIndex";
 
-export default [generateComponent];
+export default [generateComponent, generateIndex];
