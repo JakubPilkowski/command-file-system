@@ -1,7 +1,7 @@
 import { ArgumentsCamelCase } from "yargs";
 import fs from "fs";
 
-import typeTemplate from "templates/typesTemplates/typeTemplate";
+import typesTemplate from "templates/typesTemplate";
 
 import { GenerateTypesArgs } from "./generateTypes.types";
 
@@ -10,7 +10,7 @@ export default function generateTypesHandler(
 ): void | Promise<void> {
   const { name, suffix } = args;
 
-  const template = typeTemplate({
+  const template = typesTemplate({
     name,
     suffix,
     baseTypes: ["BaseProps"],
