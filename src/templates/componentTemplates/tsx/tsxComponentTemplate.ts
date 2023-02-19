@@ -1,12 +1,37 @@
+import { JsxTemplateArgs } from "commands/generateComponent/generateComponent.types";
 import ITemplate from "core/ITemplate";
+import capitalize from "utils/capitalize";
 
-export default <ITemplate>[
-  "import React, { FC{?withMemo|, memo?} } from 'react';",
-  "",
-  "const {{name}}: FC{?withProps|<{{name}}Props>?} = () => {",
-  "  return <div></div>;",
-  "};",
-  "",
-  "export default {?withMemo|memo({{name}})|{{name}}?};",
-  "",
-];
+export default ({
+  name,
+  withMemo,
+  withProps,
+  withForwardRef,
+  className,
+  tag,
+  body,
+  imports,
+  children,
+}: JsxTemplateArgs): ITemplate => {
+  return [
+    `import React, { ${withForwardRef ? "forwardRef" : "FC"}${
+      withMemo ? `, memo` : ""
+    } } from 'react';`,
+    "",
+    ...imports,
+    ...(withForwardRef
+      ? [
+          `const ${name} = forwardRef<HTML${capitalize(tag)}Element${
+            withProps ? `,${name}Props` : ""
+          }>(function ${name}() {`,
+        ]
+      : [`const ${name}: FC${withProps ? `<${name}Props>` : ""} = () => {`]),
+    ...body,
+    `return <${tag}${className || ""}>`,
+    ...children,
+    `</${tag}>;`,
+    `}${withForwardRef ? `)` : ""};`,
+    "",
+    `export default ${withMemo ? `memo(${name})` : name};`,
+  ];
+};
