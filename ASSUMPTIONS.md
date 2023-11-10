@@ -13,7 +13,7 @@
 
 - component (component template + index template + types template + scss template + test template) MVP
 - hook (hook template + types template + index template) MVP
-- hoc (hoc template + types tempalte + index template + scss template) MVP
+- hoc (hoc template + types template + index template + scss template) MVP
 
 3. templatki
 
