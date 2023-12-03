@@ -1,39 +1,38 @@
 #!/usr/bin/env node
-
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import commands from "./commands";
+
+import { CONSTANTS } from "core/CONSTANTS";
+
+import readConfig from "core/readConfig";
+
+// split into ->
+// init -> readConfig -> create commands -> save to cache
+// update (in future automatic) -> readConfig -> create commands -> save to cache
+// gc/gf -> readCommand from cache -> not exist -> readConfig -> createCommand -> if exist run -> otherwise throw error
+// gc/gf -> readCommand from cache -> exist -> run
 
 const yargsInstance = yargs(hideBin(process.argv))
-  .scriptName("rfm")
+  .scriptName(CONSTANTS.CLI_NAME)
   .usage("$0 <cmd> [args]");
 
-commands.forEach((appCommand) => {
-  // const command = appCommand();
-  // console.log("command", command);
-  const { name, description, builder, handler } = appCommand();
-  yargsInstance.command(name, description, builder, handler);
-});
+const init = (argv: unknown) => {
+  // 1. look for command in cache
 
-/**
- * here we create our cli command
- */
-// yargsInstance.command(
-// in square brackets we have got positionals []
-// in brackets we have got options
-// "gc [name]",
-// "generate react component directory",
-// (yargs) => {
-/** here we create command options */
-// yargs.positional("name", {
-// describe: "Component name used in files",
-// type: "string",
-// });
-// yargs.demandOption("name");
-// },
-// (argv) => {
-// console.log(`Creating component ${argv.name}`);
-// }
-// );
+  readConfig().then((config) => {
+    console.log("config read successfully");
+    // yargsInstance.strict().showHelpOnFail(false).parse();
+  });
 
-yargsInstance.strict().showHelpOnFail(false).parse();
+  // TODO: createComands -> add commands to yargs instance -> save commands in some kind of cache
+
+  // commands.forEach((appCommand) => {
+  //   // const command = appCommand();
+  //   // console.log("command", command);
+  //   const { name, description, builder, handler } = appCommand();
+  //   yargsInstance.command(name, description, builder, handler);
+  // });
+};
+
+yargsInstance.command("init", "init cfs template generation", () => {}, init)
+  .argv;
