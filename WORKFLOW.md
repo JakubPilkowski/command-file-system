@@ -1,5 +1,15 @@
-1. create basic readConfig
-2. createCommands (file only)
+1. create basic readConfig - done
+2. createCommands (file only):
+
+   - Problems:
+     - we don't know the structure of future command for now and we don't know whether it is possible to save yargs.commands in cache
+     - we dont't if we can pass dynamic args
+     - maybe we can start watcher on init and invoke commands
+   - Spikes:
+     - test dynamic args in gfs gc
+     - test saving yargs.commands in cache
+     - if not possible spike watchers and invoking commands in watcher
+
 3. add command to yargs instance (is this necessary)
 4. save to some kind of cache
 

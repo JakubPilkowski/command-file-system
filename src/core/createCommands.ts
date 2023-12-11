@@ -1,3 +1,5 @@
+import isFileTemplate from "utils/isFileTemplate";
+
 import ICommand from "./ICommand";
 import { ITemplate } from "./ITemplateV2";
 
@@ -5,13 +7,15 @@ import { ITemplate } from "./ITemplateV2";
 export default function createCommands(
   templates: ITemplate[]
 ): Promise<ICommand[]> {
-  //   const commands = templates.flatMap<ICommand>((template) => {
-  //     if (isFileTemplate(template)) {
-  //       const {} = template;
-  //       return [{}];
-  //     } else {
-  //       return [];
-  //     }
-  //   });
-  return Promise.resolve([]);
+  return new Promise<ICommand[]>(resolve, (reject) => {
+    const commands = templates.flatMap<ICommand>((template) => {
+      if (isFileTemplate(template)) {
+        const { name, templateName, params } = template;
+        return [{}];
+      } else {
+        return [];
+      }
+    });
+    resolve(commands);
+  });
 }
