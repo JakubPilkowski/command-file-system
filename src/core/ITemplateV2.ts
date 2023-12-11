@@ -3,7 +3,7 @@ import { Output } from "./Output";
 
 export interface IFileTemplate {
   /**
-   * name of script template
+   * name of script
    */
   templateName: string;
   /**
