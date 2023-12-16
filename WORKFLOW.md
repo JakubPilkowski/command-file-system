@@ -7,7 +7,7 @@
      - we dont't if we can pass dynamic args
      - maybe we can start watcher on init and invoke commands
    - Spikes:
-     - test dynamic args in gfs gc
+     - test dynamic args in gfs gc - done
      - test saving yargs.commands in cache
      - if not possible spike watchers and invoking commands in watcher
 

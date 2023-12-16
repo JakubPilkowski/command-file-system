@@ -22,9 +22,12 @@
   "homepage": "https://github.com/JakubPilkowski/kalabanga-node-cli#readme",
   "dependencies": {
     "chalk": "^5.2.0",
+    "deep-equal": "^2.2.3",
+    "node-cache": "^5.1.2",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@types/deep-equal": "^1.0.4",
     "@types/node": "^18.13.0",
     "@types/yargs": "^17.0.22",
     "tsconfig-paths": "^4.1.2",
