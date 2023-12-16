@@ -2,7 +2,8 @@
 2. createCommands (file only):
 
    - Problems:
-     - we don't know the structure of future command for now and we don't know whether it is possible to save yargs.commands in cache
+     - we don't know the structure of future command for now and we don't know whether it is possible
+     - to save yargs.commands in cache
      - we dont't if we can pass dynamic args
      - maybe we can start watcher on init and invoke commands
    - Spikes:

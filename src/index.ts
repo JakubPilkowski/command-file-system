@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import yargs from "yargs";
+import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import { CONSTANTS } from "core/CONSTANTS";
@@ -34,5 +34,43 @@ const init = (argv: unknown) => {
   // });
 };
 
-yargsInstance.command("init", "init cfs template generation", () => {}, init)
-  .argv;
+const builder = (yargs: Argv) => {
+  // yargs.positional("template", {
+  //   alias: "t",
+  //   describe: "template name",
+  //   type: "string",
+  // });
+
+  yargs
+    .example(
+      "cfs gf index Component ts",
+      `generate 'index' typescript file template for 'Component'`
+    )
+    .alias("ext", "extension")
+    .choices("ext", ["ts", "js"])
+    .describe("ext", "either ts or js extension for index file");
+  // yargs.check((argv) => {
+  //   const template = argv.template as string;
+  //   if (!template) {
+  //     throw new Error("Template must be provided");
+  //   } else {
+  //     return true;
+  //   }
+  // });
+};
+
+const generate = (args: unknown) => {
+  console.log("args", args);
+};
+
+yargsInstance
+  .command("init", "Init cfs template generation", () => {}, init)
+  .command(
+    "gf $1 $2 [extension]",
+    "Generate file based on given template",
+    builder,
+    generate
+  )
+  .command("gc", "Generate catalog based on given template", () => {}, generate)
+  .help("h")
+  .alias("h", "help").argv;
