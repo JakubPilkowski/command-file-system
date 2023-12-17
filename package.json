@@ -1,7 +1,7 @@
 {
-  "name": "kalabanga-react-files",
+  "name": "command-file-system",
   "version": "1.0.0",
-  "description": "cli tool for automatic react directories creation",
+  "description": "Cli tool for automatic file and catalogs generation based on given template",
   "main": "./bin/index.js",
   "bin": {
     "rfm": "./bin/index.js"
@@ -23,6 +23,9 @@
   "dependencies": {
     "chalk": "^5.2.0",
     "deep-equal": "^2.2.3",
+    "file-system-cache": "^2.4.4",
+    "find-cache-dir": "^5.0.0",
+    "memoize-fs": "^3.0.0",
     "node-cache": "^5.1.2",
     "yargs": "^17.6.2"
   },
