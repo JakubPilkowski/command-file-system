@@ -8,16 +8,14 @@
      - maybe we can start watcher on init and invoke commands
    - Spikes:
      - test dynamic args in gfs gc - done
-     - test saving yargs.commands in cache
-     - if not possible spike watchers and invoking commands in watcher
+     - test saving yargs.commands in cache - done
+     - if not possible spike watchers and invoking commands in watcher - for now we can skip it
 
-3. add command to yargs instance (is this necessary)
-4. save to some kind of cache
-
-5. sample catalog generating from config
-6. Command class for easy command generation (maybe)
-7. register project in npm
+3. read commands from config
+4. file generator depending on template
+5. register project in npm
+6. vscode extension spike
+7. watch command spike
 8. read config from external projects
-9. add plugins (template plugins, vscode plugin??)
-10. CLI for creating external project config file
-11. vscode extension ???
+9. plugins spike
+10. catalog generator (V2)

@@ -1,29 +1,13 @@
 #!/usr/bin/env node
 import yargs, { ArgumentsCamelCase, Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
-import NodeCache from "node-cache";
-import deepEqual from "deep-equal";
 import Cache from "file-system-cache";
-import memoizeFs from "memoize-fs";
-// import findCacheDirectory from "find-cache-dir";
-// import { promises as fs } from "fs";
-
-// const getCacheDir = (() => {
-// const cacheDir = thunk();
-// let prom = undefined;
-// return () =>
-//   (prom =
-//     prom ||
-//     (async () => {
-//       await fs.mkdir(cacheDir, { recursive: true });
-//       return cacheDir;
-//     })());
-// })();
+import path from "path";
+import * as fs from "fs";
 
 import { CONSTANTS } from "core/CONSTANTS";
 
 import readConfig from "core/readConfig";
-import { IConfig } from "core/IConfig";
 
 // split into ->
 // init -> readConfig -> create commands -> save to cache
@@ -36,16 +20,20 @@ const yargsInstance = yargs(hideBin(process.argv))
   .usage("$0 <cmd> [args]");
 
 const cache = Cache({
-  basePath: "./.cache/command-file-system", // (optional) Path where cache files are stored (default).
-  // ns: "my-namespace",   // (optional) A grouping namespace for items.
+  basePath: "./.cache/cfs", // (optional) Path where cache files are stored (default).
+  ns: "my-namespace", // (optional) A grouping namespace for items.
   hash: "sha1", // (optional) A hashing algorithm used within the cache key.
   ttl: 0, // (optional) A time-to-live (in secs) on how long an item remains cached.
 });
 
-const memoizer = memoizeFs({
-  cachePath: "./.cache/command-file-system/commands",
-});
+let templateCommands: string[] = ["index"];
 
+type GenerateFileArgs = {
+  $1: string;
+  templates: string[];
+};
+
+// ?? Maybe this will be helpful as watch
 const init = (argv: unknown) => {
   // 1. look for command in cache
 
@@ -65,37 +53,23 @@ const init = (argv: unknown) => {
 };
 
 const builder = (yargs: Argv) => {
-  console.log("builder");
-  // yargs.positional("template", {
-  //   alias: "t",
-  //   describe: "template name",
-  //   type: "string",
-  // });
+  console.log("Start builder...");
 
   yargs.example("cfs gf index", `generate 'index' template`);
-  // .alias("ext", "extension")
-  // .choices("ext", ["ts", "js"])
-  // .describe("ext", "either ts or js extension for index file");
 };
 
-let templateCommands: string[] = ["index"];
-
-type GenerateFileArgs = {
-  $1: string;
-};
-
+// TODO: implement as monads
 const generate = (args: ArgumentsCamelCase<GenerateFileArgs>) => {
-  // console.log("args", args);
-  console.log("generate");
+  console.log("Start generator...");
 
   const templateName = args?.$1;
-  // TODO: implement as monads
+  const templates = args?.templates;
 
   if (!templateName) {
     throw new Error(`Could not generate file. No template was provided`);
   }
 
-  const templateCommand = templateCommands.find((cmd) => cmd === templateName);
+  const templateCommand = templates.find((cmd) => cmd === templateName);
 
   if (!templateCommand) {
     throw new Error(
@@ -109,51 +83,86 @@ const generate = (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   // TODO: run template handler
 };
 
-// const nodeCache = new NodeCache({ useClones: false });
+// TODO: test https://www.npmjs.com/package/cache-manager
+async function readFromCache(): Promise<string[]> {
+  const cacheFileTemplates = (await cache.get("fileTemplates")) as
+    | string[]
+    | undefined;
+
+  if (Array.isArray(cacheFileTemplates)) {
+    return cacheFileTemplates;
+  } else {
+    return readFromConfig();
+  }
+}
+
+async function readFromConfig(): Promise<string[]> {
+  // TODO: implement logic
+  console.log("Reading config...");
+  const config = await readConfig();
+  // const templates = config.templates.length;
+  console.log("Read file templates...");
+  const fileTemplateNames = new Set<string>(["index"]);
+
+  return Array.from(fileTemplateNames);
+}
 
 yargsInstance
-  .command("gf $1", "Generate file based on given template", builder, generate)
-  .command("gc", "Generate catalog based on given template", () => {}, generate)
-  .middleware(async () => {
-    console.log("middleware");
-    const config = await readConfig();
-    let func = memoizer.fn();
-    // const dir = await import("find-cache-dir").then(() => {
-    // return findCacheDirectory.default({ name: "command-file-system" });
-    // });
-    // console.log("🚀 ~ file: index.ts:110 ~ .middleware ~ dir:", dir);
-    // it doesnt work right now, cache is not persistent
-    // const cacheConfig = nodeCache.get<IConfig | undefined>("config");
-    const cacheConfig = (await cache.get("config")) as IConfig;
+  .command(
+    ["generate-file $1", "gf", "f"],
+    "Generate file based on given template",
+    builder,
+    generate
+  )
+  // .command(
+  //   "gc $1",
+  //   "Generate catalog based on given template",
+  //   builder,
+  //   generate
+  // )
+  // TODO: add logging support
+  // TODO: verbose mode
+  // TODO: no cache mode
+  // TODO: cache clear command
+  .middleware(async (argv) => {
+    console.log("Start middleware...");
+    const configFilePath = path.resolve("src/cfs.config.ts");
 
-    console.log(
-      "🚀 ~ file: index.ts:97 ~ .middleware ~ cacheConfig:",
-      cacheConfig
-    );
-    if (cacheConfig) {
-      // TODO: compare modified date instead of object
-      const hasChange = deepEqual(config, cacheConfig);
-      const func = () => {};
-
-      const result = await memoizer.fn(func);
-      // TODO: test https://www.npmjs.com/package/cache-manager
-
-      console.log(
-        "🚀 ~ file: index.ts:100 ~ .middleware ~ hasChange:",
-        hasChange
-      );
-      if (hasChange) {
-        cache.set("config", config);
-      }
-      // TODO
-      // create commands
-    } else {
-      const res = cache.set("config", config);
-      console.log("res", res);
-
-      // TODO
-      // create commands
+    if (!configFilePath) {
+      throw new Error(`Could not resolve config file.`);
     }
-  })
+
+    const cacheModifyDate = (await cache.get("cacheModifyDate")) as
+      | number
+      | undefined;
+    const currentModifyDate = fs.statSync(configFilePath).mtimeMs;
+
+    let templates: string[];
+
+    if (cacheModifyDate) {
+      console.log("Detect modification date cache. Start detection...");
+      if (currentModifyDate > cacheModifyDate) {
+        console.log("Detect config changes. Loading new templates...");
+        cache.set("cacheModifyDate", currentModifyDate);
+        const fileTemplateNames = await readFromConfig();
+        cache.set("fileTemplates", fileTemplateNames);
+        templates = fileTemplateNames;
+      } else {
+        console.log("No changes detected. Reading templates from cache...");
+        const fileTemplateNames = await readFromCache();
+        cache.set("fileTemplates", fileTemplateNames);
+        templates = fileTemplateNames;
+      }
+    } else {
+      console.log("No cache. Loading templates from config...");
+      cache.set("cacheModifyDate", currentModifyDate);
+      const fileTemplateNames = await readFromConfig();
+      cache.set("fileTemplates", fileTemplateNames);
+      templates = fileTemplateNames;
+    }
+
+    console.log("Passing templates to generator...");
+    argv.templates = templates;
+  }, true)
   .help("h")
   .alias("h", "help").argv;
