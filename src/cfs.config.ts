@@ -11,6 +11,7 @@ export default <IConfig>{
   templates: [
     {
       templateName: "index",
+      templateAliases: ["i", "idx", "id"],
       template: tsIndexTemplate,
       name: ({ name, ext }) => `${name}.${ext}`,
       params: [

@@ -9,7 +9,7 @@ export interface IFileTemplate {
   /**
    * alias of {@link IFileTemplate.templateName}
    */
-  templateAlias?: string;
+  templateAliases?: string[];
   /**
    * command description
    */
