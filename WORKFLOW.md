@@ -14,8 +14,11 @@
 3. read commands from config
 4. file generator depending on template
 5. register project in npm
-6. vscode extension spike
-7. watch command spike
-8. read config from external projects
-9. plugins spike
-10. catalog generator (V2)
+6. implement simple tests
+7. vscode extension spike
+8. watch command spike
+9. read config from external projects
+10. plugins spike
+11. OOP project
+12. Rust implementation
+13. catalog generator (V2)

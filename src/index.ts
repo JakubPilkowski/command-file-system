@@ -8,6 +8,7 @@ import * as fs from "fs";
 import { CONSTANTS } from "core/CONSTANTS";
 
 import readConfig from "core/readConfig";
+import isFileTemplate from "utils/isFileTemplate";
 
 // split into ->
 // init -> readConfig -> create commands -> save to cache
@@ -30,7 +31,7 @@ let templateCommands: string[] = ["index"];
 
 type GenerateFileArgs = {
   $1: string;
-  templates: string[];
+  templates: TemplateTuple[];
 };
 
 // ?? Maybe this will be helpful as watch
@@ -69,24 +70,27 @@ const generate = (args: ArgumentsCamelCase<GenerateFileArgs>) => {
     throw new Error(`Could not generate file. No template was provided`);
   }
 
-  const templateCommand = templates.find((cmd) => cmd === templateName);
+  const template = templates.find((templateNames) =>
+    templateNames.find((_templateName) => _templateName === templateName)
+  );
 
-  if (!templateCommand) {
+  if (!template) {
     throw new Error(
       `Could not generate file. There is no template config for template: ${templateName}`
     );
   }
 
-  console.log("success");
-
-  // TODO: parse handler by template name
-  // TODO: run template handler
+  console.log(
+    `Successfully find template '${template[0]}' for name '${templateName}'`
+  );
+  // TODO: implement file generator
+  console.log("Successfully generate file");
 };
 
 // TODO: test https://www.npmjs.com/package/cache-manager
-async function readFromCache(): Promise<string[]> {
+async function readFromCache(): Promise<TemplateTuple[]> {
   const cacheFileTemplates = (await cache.get("fileTemplates")) as
-    | string[]
+    | TemplateTuple[]
     | undefined;
 
   if (Array.isArray(cacheFileTemplates)) {
@@ -96,15 +100,38 @@ async function readFromCache(): Promise<string[]> {
   }
 }
 
-async function readFromConfig(): Promise<string[]> {
-  // TODO: implement logic
+type TemplateTuple = string[];
+
+async function readFromConfig(): Promise<TemplateTuple[]> {
   console.log("Reading config...");
   const config = await readConfig();
-  // const templates = config.templates.length;
-  console.log("Read file templates...");
-  const fileTemplateNames = new Set<string>(["index"]);
+  const templates = config.templates;
 
-  return Array.from(fileTemplateNames);
+  const fileTemplateNames = new Map<string, TemplateTuple>([]);
+
+  console.log("Read file templates...");
+
+  for (let i = 0; i < templates.length; i++) {
+    const template = templates[i];
+
+    if (isFileTemplate(template)) {
+      const { templateName, templateAliases } = template;
+      if (fileTemplateNames.has(templateName)) {
+        throw new Error(
+          `Could not read template ${JSON.stringify(
+            template
+          )}. Template with name ${templateName} already exist`
+        );
+      }
+      fileTemplateNames.set(templateName, [templateName, ...templateAliases]);
+    }
+  }
+
+  console.log("Successfully read template names");
+
+  const result = Array.from(fileTemplateNames.values());
+
+  return result;
 }
 
 yargsInstance
@@ -137,7 +164,7 @@ yargsInstance
       | undefined;
     const currentModifyDate = fs.statSync(configFilePath).mtimeMs;
 
-    let templates: string[];
+    let templates: TemplateTuple[];
 
     if (cacheModifyDate) {
       console.log("Detect modification date cache. Start detection...");
@@ -159,6 +186,10 @@ yargsInstance
       const fileTemplateNames = await readFromConfig();
       cache.set("fileTemplates", fileTemplateNames);
       templates = fileTemplateNames;
+    }
+
+    if (templates.length === 0) {
+      throw new Error(`Could not find any templates in config file.`);
     }
 
     console.log("Passing templates to generator...");
