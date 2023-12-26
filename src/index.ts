@@ -9,6 +9,9 @@ import { CONSTANTS } from "core/CONSTANTS";
 
 import readConfig from "core/readConfig";
 import isFileTemplate from "utils/isFileTemplate";
+import { IFileTemplate } from "core/ITemplateV2";
+import convertVariables from "utils/convertVariables";
+import mapVariables from "utils/mapVariables";
 
 // split into ->
 // init -> readConfig -> create commands -> save to cache
@@ -31,6 +34,7 @@ let templateCommands: string[] = ["index"];
 
 type GenerateFileArgs = {
   $1: string;
+  $2: string;
   templates: TemplateTuple[];
 };
 
@@ -60,30 +64,76 @@ const builder = (yargs: Argv) => {
 };
 
 // TODO: implement as monads
-const generate = (args: ArgumentsCamelCase<GenerateFileArgs>) => {
+const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   console.log("Start generator...");
 
   const templateName = args?.$1;
-  const templates = args?.templates;
+  const templatesNames = args?.templates;
 
   if (!templateName) {
     throw new Error(`Could not generate file. No template was provided`);
   }
 
-  const template = templates.find((templateNames) =>
-    templateNames.find((_templateName) => _templateName === templateName)
+  const templateTuple = templatesNames.find((_templateNames) =>
+    _templateNames.find((_templateName) => _templateName === templateName)
   );
 
-  if (!template) {
+  if (!templateTuple) {
     throw new Error(
       `Could not generate file. There is no template config for template: ${templateName}`
     );
   }
 
+  const config = await readConfig();
+
+  const template = config.templates.find((template) => {
+    if (!isFileTemplate(template)) {
+      return false;
+    }
+
+    const templateNames = new Set([template.name, ...template.templateAliases]);
+
+    return templateTuple.find((_templateTupleName) =>
+      templateNames.has(_templateTupleName)
+    );
+  }) as IFileTemplate | undefined;
+
+  if (!template) {
+    throw new Error(`Could not find template '${templateTuple[0]}'.`);
+  }
+
   console.log(
-    `Successfully find template '${template[0]}' for name '${templateName}'`
+    `Successfully find template '${templateTuple[0]}' for name '${templateName}'`
   );
-  // TODO: implement file generator
+
+  const { params, template: t } = template;
+
+  const filePath = args.$2;
+
+  if (!filePath) {
+    throw new Error(
+      `Could not generate template '${templateTuple[0]}'. FilePath was not provided`
+    );
+  }
+
+  const parsedPath = path.parse(filePath);
+
+  // TODO: implement as monads or as a class
+  // TODO: create vscode plugin to automatically open created file
+  // TODO: create typescript plugin to resolve file path from tsconfig
+  const mappedTemplate = mapVariables(t, {
+    name: parsedPath.name,
+    ext: parsedPath.ext,
+  });
+
+  console.log("Successfully map variables");
+
+  // Create directory if not exists
+  fs.mkdirSync(parsedPath.dir, { recursive: true });
+
+  // Write file with given template
+  fs.writeFileSync(filePath, mappedTemplate);
+
   console.log("Successfully generate file");
 };
 
@@ -136,7 +186,7 @@ async function readFromConfig(): Promise<TemplateTuple[]> {
 
 yargsInstance
   .command(
-    ["generate-file $1", "gf", "f"],
+    ["generate-file $1 $2", "gf", "f"],
     "Generate file based on given template",
     builder,
     generate

@@ -1,9 +1,8 @@
 import { IConfig } from "core/IConfig";
 
-const tsIndexTemplate = `
-    import {{name}} from './{{name}}.{{ext}}';
+const tsIndexTemplate = `import {{name}} from './{{name}}{{ext}}';
 
-    export default {{name}}
+export default {{name}};
 `;
 
 // sample config
