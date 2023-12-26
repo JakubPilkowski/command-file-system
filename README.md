@@ -1,7 +1,44 @@
-#description
-core cli tool for creating react files structure
+# Command File System
 
-#development
+Cli tool for creating files based on given templates.
 
-- run application `ts-node -r tsconfig-paths/register ./src/index.ts COMMAND ARGS`
-- example `ts-node -r tsconfig-paths/register ./src/index.ts gf index index.ts`
+## Usage
+
+To start work with ` cfs`` you need to provide set of templates you want  `cfs` to generate for you.
+
+In order to manage `cfs` templates create `cfs.config.ts` file in root directory
+
+#### Example
+
+```
+import { IConfig } from "cfs/core/IConfig";
+
+const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
+export default {{name}};
+`;
+export default <IConfig>{
+  templates: [
+    {
+      templateName: "index",
+      templateAliases: ["i", "idx", "id"],
+      template: indexTemplate,
+    },
+  ],
+};
+```
+
+Right now you can easily create index template.
+
+#### Run
+
+```
+cfs generate-file index testIndex.ts
+```
+
+The output should look like this:
+
+```
+import index from './testIndex.ts';
+
+export default testIndex;
+```
