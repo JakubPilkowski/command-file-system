@@ -1,13 +1,14 @@
 import ITemplate from "core/ITemplate";
 import { variableFormat } from "./regexs";
 
+/**
+ * @deprecated use mapVariables instead
+ */
 export default function convertVariables(
   template: ITemplate,
   variables: Record<string, string>
 ): ITemplate {
-  //   console.log("template", template);
   const newTemplate = template.map((line) => {
-    // console.log("line", line);
     const newLine = line.replace(variableFormat, (match, name) => {
       //   console.log("match", match);
       //   console.log("args", args);

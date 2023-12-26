@@ -11,14 +11,14 @@
      - test saving yargs.commands in cache - done
      - if not possible spike watchers and invoking commands in watcher - for now we can skip it
 
-3. read commands from config
-4. file generator depending on template
+3. read commands from config - done
+4. file generator depending on template - done
 5. register project in npm
-6. implement simple tests
-7. vscode extension spike
-8. watch command spike
-9. read config from external projects
-10. plugins spike
-11. OOP project
-12. Rust implementation
+6. read config from external projects
+7. watch command spike
+8. plugins spike (vscode, typescript, react plugins)
+9. OOP project
+10. implement simple tests (end of V1 version)
+11. vscode extension spike (idk if i should do it now) (V2)
+12. Rust implementation (V2)
 13. catalog generator (V2)
