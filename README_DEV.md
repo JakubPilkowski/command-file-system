@@ -13,4 +13,6 @@ build local application:
 ## Publication
 
 - Testing locally `npm publish --dry run`
+- Display Files included in package `npm pack --dry run`
 - Set prelease version `npm version prerelease --preid=<alpha|beta|rc>.<number_of_version>`. Example: `npm version prerelease --preid=alpha.1`
+- Publish ready version `npm publish`

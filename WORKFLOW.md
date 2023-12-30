@@ -13,7 +13,7 @@
 
 3. read commands from config - done
 4. file generator depending on template - done
-5. register project in npm
+5. register project in npm - done
 6. read config from external projects
 7. watch command spike
 8. plugins spike (vscode, typescript, react plugins)
