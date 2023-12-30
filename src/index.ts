@@ -4,14 +4,15 @@ import { hideBin } from "yargs/helpers";
 import Cache from "file-system-cache";
 import path from "path";
 import * as fs from "fs";
+import { glob } from "glob";
 
 import { CONSTANTS } from "core/CONSTANTS";
 
 import readConfig from "core/readConfig";
 import isFileTemplate from "utils/isFileTemplate";
-import { IFileTemplate } from "core/ITemplateV2";
 import mapVariables from "utils/mapVariables";
-import { glob } from "glob";
+
+import { IFileTemplate } from "core/ITemplateV2";
 
 const yargsInstance = yargs(hideBin(process.argv))
   .scriptName(CONSTANTS.CLI_NAME)
@@ -24,22 +25,21 @@ const cache = Cache({
   ttl: 0, // (optional) A time-to-live (in secs) on how long an item remains cached.
 });
 
-let templateCommands: string[] = ["index"];
-
 type GenerateFileArgs = {
   $1: string;
   $2: string;
   templates: TemplateTuple[];
+  configFilePath: string;
 };
 
 // ?? Maybe this will be helpful as watcher
 const watch = (argv: unknown) => {};
 
-// create sample config
+// create sample config (V2)
 const init = (argv: unknown) => {
   // 1. look for command in cache
 
-  readConfig().then((config) => {
+  readConfig("").then((config) => {
     console.log("config read successfully");
     // yargsInstance.strict().showHelpOnFail(false).parse();
   });
@@ -66,9 +66,16 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
 
   const templateName = args?.$1;
   const templatesNames = args?.templates;
+  const configFilePath = args?.configFilePath;
 
   if (!templateName) {
     throw new Error(`Could not generate file. No template was provided`);
+  }
+
+  if (!configFilePath) {
+    throw new Error(
+      `Could not generate file. There is no config file path provided`
+    );
   }
 
   const templateTuple = templatesNames.find((_templateNames) =>
@@ -81,7 +88,7 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
     );
   }
 
-  const config = await readConfig();
+  const config = await readConfig(configFilePath);
 
   const template = config.templates.find((template) => {
     if (!isFileTemplate(template)) {
@@ -136,8 +143,7 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   console.log("Successfully generate file");
 };
 
-// TODO: test https://www.npmjs.com/package/cache-manager
-async function readFromCache(): Promise<TemplateTuple[]> {
+async function readFromCache(configFilePath: string): Promise<TemplateTuple[]> {
   const cacheFileTemplates = (await cache.get("fileTemplates")) as
     | TemplateTuple[]
     | undefined;
@@ -145,15 +151,17 @@ async function readFromCache(): Promise<TemplateTuple[]> {
   if (Array.isArray(cacheFileTemplates)) {
     return cacheFileTemplates;
   } else {
-    return readFromConfig();
+    return readFromConfig(configFilePath);
   }
 }
 
 type TemplateTuple = string[];
 
-async function readFromConfig(): Promise<TemplateTuple[]> {
-  console.log("Reading config...");
-  const config = await readConfig();
+async function readFromConfig(
+  configFilePath: string
+): Promise<TemplateTuple[]> {
+  console.log(`Reading config from ${configFilePath}...`);
+  const config = await readConfig(configFilePath);
   const templates = config.templates;
 
   const fileTemplateNames = new Map<string, TemplateTuple>([]);
@@ -205,13 +213,17 @@ yargsInstance
 
     // custom pattern as option
     // cfs.ignore.json for easy exclude and include detection
-    const configFiles = await glob("**/cfs.*.ts", {
+    const configFiles = await glob("**/cfs.config.ts", {
       ignore: "node_modules/**",
     });
 
-    console.log("config files", configFiles);
+    if (configFiles.length === 0) {
+      throw new Error(
+        "There is no config file. Provide cfs.config.ts file in your project"
+      );
+    }
 
-    const configFilePath = path.resolve("src/cfs.config.ts");
+    const configFilePath = path.resolve(configFiles[0]);
 
     if (!configFilePath) {
       throw new Error(`Could not resolve config file.`);
@@ -229,19 +241,19 @@ yargsInstance
       if (currentModifyDate > cacheModifyDate) {
         console.log("Detect config changes. Loading new templates...");
         cache.set("cacheModifyDate", currentModifyDate);
-        const fileTemplateNames = await readFromConfig();
+        const fileTemplateNames = await readFromConfig(configFilePath);
         cache.set("fileTemplates", fileTemplateNames);
         templates = fileTemplateNames;
       } else {
         console.log("No changes detected. Reading templates from cache...");
-        const fileTemplateNames = await readFromCache();
+        const fileTemplateNames = await readFromCache(configFilePath);
         cache.set("fileTemplates", fileTemplateNames);
         templates = fileTemplateNames;
       }
     } else {
       console.log("No cache. Loading templates from config...");
       cache.set("cacheModifyDate", currentModifyDate);
-      const fileTemplateNames = await readFromConfig();
+      const fileTemplateNames = await readFromConfig(configFilePath);
       cache.set("fileTemplates", fileTemplateNames);
       templates = fileTemplateNames;
     }
@@ -252,6 +264,7 @@ yargsInstance
 
     console.log("Passing templates to generator...");
     argv.templates = templates;
+    argv.configFilePath = configFilePath;
   }, true)
   .help("h")
   .alias("h", "help").argv;

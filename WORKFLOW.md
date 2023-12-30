@@ -15,15 +15,21 @@
 4. file generator depending on template - done
 5. register project in npm - done
 6. read config from external projects - in progress
-
-- split into config (include, exclude) and templates (plugins, templates, etc)
-
 7. benchmark script
 8. watch command spike
 9. plugins spike (vscode, typescript, react plugins)
 10. implement simple tests (end of V1 version)
 11. OOP project
-12. vscode extension spike (idk if i should do it now) (V2)
-13. Rust implementation (V2)
-14. catalog generator (V2)
-15. config merge (multiple configs) (V2)
+    V2
+12. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
+13. vscode extension spike (idk if i should do it now) (V2)
+14. Rust implementation (V2)
+15. catalog generator (V2)
+16. config merge (multiple configs) (V2)
+
+V2/V3 ideas
+// TODO: init command which will create base config
+// TODO: add logging support
+// TODO: verbose mode
+// TODO: no cache mode
+// TODO: cache clear command
