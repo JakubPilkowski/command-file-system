@@ -28,6 +28,7 @@
   "dependencies": {
     "chalk": "^5.2.0",
     "file-system-cache": "^2.4.4",
+    "glob": "^10.3.10",
     "yargs": "^17.6.2"
   },
   "devDependencies": {

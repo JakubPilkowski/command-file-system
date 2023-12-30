@@ -10,14 +10,8 @@ import { CONSTANTS } from "core/CONSTANTS";
 import readConfig from "core/readConfig";
 import isFileTemplate from "utils/isFileTemplate";
 import { IFileTemplate } from "core/ITemplateV2";
-import convertVariables from "utils/convertVariables";
 import mapVariables from "utils/mapVariables";
-
-// split into ->
-// init -> readConfig -> create commands -> save to cache
-// update (in future automatic) -> readConfig -> create commands -> save to cache
-// gc/gf -> readCommand from cache -> not exist -> readConfig -> createCommand -> if exist run -> otherwise throw error
-// gc/gf -> readCommand from cache -> exist -> run
+import { glob } from "glob";
 
 const yargsInstance = yargs(hideBin(process.argv))
   .scriptName(CONSTANTS.CLI_NAME)
@@ -38,7 +32,10 @@ type GenerateFileArgs = {
   templates: TemplateTuple[];
 };
 
-// ?? Maybe this will be helpful as watch
+// ?? Maybe this will be helpful as watcher
+const watch = (argv: unknown) => {};
+
+// create sample config
 const init = (argv: unknown) => {
   // 1. look for command in cache
 
@@ -205,6 +202,15 @@ yargsInstance
   // TODO: cache clear command
   .middleware(async (argv) => {
     console.log("Start middleware...");
+
+    // custom pattern as option
+    // cfs.ignore.json for easy exclude and include detection
+    const configFiles = await glob("**/cfs.*.ts", {
+      ignore: "node_modules/**",
+    });
+
+    console.log("config files", configFiles);
+
     const configFilePath = path.resolve("src/cfs.config.ts");
 
     if (!configFilePath) {

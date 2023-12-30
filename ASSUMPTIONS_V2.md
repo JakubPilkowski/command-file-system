@@ -9,6 +9,6 @@
 - cfs gf --template --name/-s (--name or -n)
 - examaple `cfs gf react-ts-hook useSmth`
 
-4. konfig do zaciąnia folderów/plików lub customwych pluginów
+4. konfig do zaciąnia folderów/plików lub customwych pluginów (średnio potrzebne imo)
 
 - example `cfs gf react-ts-hook useSmth --config rcf.config.ts`
