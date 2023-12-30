@@ -17,6 +17,8 @@
 6. read config from external projects - in progress
    6.1 - remove cfs.config.js from build
    6.2 - remove bin directory
+   6.3 - fix cache directory
+   6.4 - fix index.js could not resolve esm imports and exports
 7. add types declaration to build file
 8. benchmark script
 9. watch command spike
