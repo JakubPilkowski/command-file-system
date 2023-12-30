@@ -11,11 +11,14 @@ export const GENERATE_COMPONENT_SCRIPT = [
 
 export const GENERATE_COMPONENT_DESCRIPTION = "Generate jsx/tsx component file";
 
+/**
+ * @deprecated
+ */
 export default function generateFileTemplate(
   fileTemplate: IFileTemplate
 ): ICommand {
   return {
-    name: [fileTemplate.templateName, fileTemplate.templateAlias],
+    name: [fileTemplate.templateName, ...fileTemplate.templateAliases],
     description: fileTemplate.description,
     builder: generateFileBuilder,
     handler: generateFileHandler,

@@ -12,6 +12,8 @@ export interface IFileTemplate {
   templateAliases?: string[];
   /**
    * command description
+   *
+   * TODO: to remove
    */
   description?: string;
   /**
@@ -20,11 +22,15 @@ export interface IFileTemplate {
   template: string;
   /**
    * name of file
+   * Not supported for now
    */
   name: string | ((params: Output) => string);
   // TODO: params can either be positional or option
   // if option then default value should be implemented
   // TODO: description
+  /**
+   * Not supported for now
+   */
   params?: Input[];
 }
 

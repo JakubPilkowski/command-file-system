@@ -106,7 +106,7 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
     `Successfully find template '${templateTuple[0]}' for name '${templateName}'`
   );
 
-  const { params, template: t } = template;
+  const { template: t } = template;
 
   const filePath = args.$2;
 
@@ -129,7 +129,9 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   console.log("Successfully map variables");
 
   // Create directory if not exists
-  fs.mkdirSync(parsedPath.dir, { recursive: true });
+  if (parsedPath.dir) {
+    fs.mkdirSync(parsedPath.dir, { recursive: true });
+  }
 
   // Write file with given template
   fs.writeFileSync(filePath, mappedTemplate);
