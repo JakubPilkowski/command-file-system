@@ -6,9 +6,6 @@
   "bin": {
     "cfs": "./bin/index.js"
   },
-  "files": [
-    "bin"
-  ],
   "scripts": {
     "local": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",

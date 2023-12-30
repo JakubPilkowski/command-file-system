@@ -1,0 +1,9 @@
+bin/cfs.config.js
+node_modules
+.cache
+src
+.git
+index.ts
+ASSUMPTIONS*
+README_DEV.md
+tsconfig.json
