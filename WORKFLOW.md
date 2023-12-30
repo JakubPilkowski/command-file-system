@@ -14,11 +14,29 @@
 3. read commands from config - done
 4. file generator depending on template - done
 5. register project in npm - done
-6. read config from external projects
-7. watch command spike
-8. plugins spike (vscode, typescript, react plugins)
-9. OOP project
-10. implement simple tests (end of V1 version)
-11. vscode extension spike (idk if i should do it now) (V2)
-12. Rust implementation (V2)
-13. catalog generator (V2)
+6. read config from external projects - in progress
+   6.1 - remove cfs.config.js from build
+   6.2 - remove bin directory
+   6.3 - fix cache directory
+   6.4 - fix index.js could not resolve esm imports and exports
+7. add types declaration to build file
+8. benchmark script
+9. watch command spike
+10. plugins spike (vscode, typescript, react plugins)
+11. implement simple tests (end of V1 version)
+12. OOP project
+
+    V2
+
+13. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
+14. vscode extension spike (idk if i should do it now) (V2)
+15. Rust implementation (V2)
+16. catalog generator (V2)
+17. config merge (multiple configs) (V2)
+
+V2/V3 ideas
+// TODO: init command which will create base config
+// TODO: add logging support
+// TODO: verbose mode
+// TODO: no cache mode
+// TODO: cache clear command
