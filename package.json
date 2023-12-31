@@ -9,13 +9,14 @@
   "scripts": {
     "local": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build && tsc-alias",
+    "build": "tsc --project tsconfig.prod.json && tsc-alias",
     "tsc": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JakubPilkowski/command-file-system.git"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "bugs": {
