@@ -1,5 +1,5 @@
-import ITemplate from "core/ITemplate";
-import { ternaryFormat, variableFormat } from "./regexs";
+import ITemplate from "core/ITemplate.js";
+import { ternaryFormat, variableFormat } from "./regexs.js";
 
 export default function convertTernaries(
   template: ITemplate,

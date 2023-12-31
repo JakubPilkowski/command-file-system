@@ -1,5 +1,5 @@
-import ITemplate from "core/ITemplate";
-import { variableFormat } from "./regexs";
+import ITemplate from "core/ITemplate.js";
+import { variableFormat } from "./regexs.js";
 
 /**
  * @deprecated use mapVariables instead

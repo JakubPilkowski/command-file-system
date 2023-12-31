@@ -1,4 +1,4 @@
-import { ITemplate } from "./ITemplateV2";
+import { ITemplate } from "./ITemplateV2.js";
 
 export interface IConfig {
   //TODO: how to read plugins???

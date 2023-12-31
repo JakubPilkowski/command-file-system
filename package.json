@@ -1,15 +1,14 @@
 {
   "name": "command-file-system",
-  "version": "0.0.4-rc.1.0",
+  "version": "0.0.4",
   "description": "Cli tool for automatic file and catalogs generation based on given template",
   "main": "./bin/index.js",
   "bin": {
     "cfs": "./bin/index.js"
   },
   "scripts": {
-    "local": "ts-node -r tsconfig-paths/register ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --project tsconfig.prod.json && tsc-alias",
+    "local": "ts-node --esm ./src/index.ts",
+    "build": "tsc --project tsconfig.prod.json",
     "tsc": "tsc"
   },
   "repository": {
@@ -32,8 +31,6 @@
   "devDependencies": {
     "@types/node": "^18.13.0",
     "@types/yargs": "^17.0.22",
-    "tsc-alias": "^1.8.8",
-    "tsconfig-paths": "^4.1.2",
     "typescript": "^5.3.3"
   }
 }

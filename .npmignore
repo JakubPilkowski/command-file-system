@@ -1,3 +1,4 @@
+bin/cfs.config.cjs
 bin/cfs.config.js
 node_modules
 .cache
@@ -7,3 +8,4 @@ index.ts
 ASSUMPTIONS*
 README_DEV.md
 tsconfig.json
+WORKFLOW.md

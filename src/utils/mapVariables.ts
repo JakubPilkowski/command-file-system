@@ -1,4 +1,4 @@
-import { variableFormat } from "./regexs";
+import { variableFormat } from "./regexs.js";
 
 export default function mapVariables(
   template: string,

@@ -1,24 +1,27 @@
 #!/usr/bin/env node
 import yargs, { ArgumentsCamelCase, Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
-import Cache from "file-system-cache";
+import { Cache } from "file-system-cache";
 import path from "path";
 import * as fs from "fs";
 import { glob } from "glob";
+import { fileURLToPath, pathToFileURL } from "url";
 
-import { CONSTANTS } from "core/CONSTANTS";
+const __filename = fileURLToPath(import.meta.url);
 
-import readConfig from "core/readConfig";
-import isFileTemplate from "utils/isFileTemplate";
-import mapVariables from "utils/mapVariables";
+import { CONSTANTS } from "./core/CONSTANTS.js";
+import readConfig from "./core/readConfig.js";
 
-import { IFileTemplate } from "core/ITemplateV2";
+import isFileTemplate from "./utils/isFileTemplate.js";
+import mapVariables from "./utils/mapVariables.js";
+
+import type { IFileTemplate } from "core/ITemplateV2.js";
 
 const yargsInstance = yargs(hideBin(process.argv))
   .scriptName(CONSTANTS.CLI_NAME)
   .usage("$0 <cmd> [args]");
 
-const cache = Cache({
+const cache = new Cache({
   basePath: "./.cache/cfs", // (optional) Path where cache files are stored (default).
   ns: "my-namespace", // (optional) A grouping namespace for items.
   hash: "sha1", // (optional) A hashing algorithm used within the cache key.
@@ -213,19 +216,22 @@ yargsInstance
 
     // custom pattern as option
     // cfs.ignore.json for easy exclude and include detection
-    const configFiles = await glob("**/cfs.config.ts", {
+    const configFiles = await glob(["**/cfs.config.js", "**/cfs.config.cjs"], {
       ignore: "node_modules/**",
+      absolute: true,
     });
 
     if (configFiles.length === 0) {
       throw new Error(
-        "There is no config file. Provide cfs.config.ts file in your project"
+        "There is no config file. Provide cfs.config.js file in your project"
       );
     }
 
-    const configFilePath = path.resolve(configFiles[0]);
+    const configFilePath = configFiles[0];
 
-    if (!configFilePath) {
+    const configFileUrl = pathToFileURL(configFilePath).toString();
+
+    if (!configFileUrl) {
       throw new Error(`Could not resolve config file.`);
     }
 
@@ -241,19 +247,19 @@ yargsInstance
       if (currentModifyDate > cacheModifyDate) {
         console.log("Detect config changes. Loading new templates...");
         cache.set("cacheModifyDate", currentModifyDate);
-        const fileTemplateNames = await readFromConfig(configFilePath);
+        const fileTemplateNames = await readFromConfig(configFileUrl);
         cache.set("fileTemplates", fileTemplateNames);
         templates = fileTemplateNames;
       } else {
         console.log("No changes detected. Reading templates from cache...");
-        const fileTemplateNames = await readFromCache(configFilePath);
+        const fileTemplateNames = await readFromCache(configFileUrl);
         cache.set("fileTemplates", fileTemplateNames);
         templates = fileTemplateNames;
       }
     } else {
       console.log("No cache. Loading templates from config...");
       cache.set("cacheModifyDate", currentModifyDate);
-      const fileTemplateNames = await readFromConfig(configFilePath);
+      const fileTemplateNames = await readFromConfig(configFileUrl);
       cache.set("fileTemplates", fileTemplateNames);
       templates = fileTemplateNames;
     }
@@ -264,7 +270,7 @@ yargsInstance
 
     console.log("Passing templates to generator...");
     argv.templates = templates;
-    argv.configFilePath = configFilePath;
+    argv.configFilePath = configFileUrl;
   }, true)
   .help("h")
   .alias("h", "help").argv;

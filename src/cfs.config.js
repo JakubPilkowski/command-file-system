@@ -1,6 +1,4 @@
-import { IConfig } from "core/IConfig";
-
-const tsIndexTemplate = `import {{name}} from './{{name}}{{ext}}';
+const tsIndexTemplate = `import {{name}} from './{{name}}{{ext}}.js';
 
 export default {{name}};
 `;
@@ -17,7 +15,7 @@ export default {{name}};
 `;
 
 // sample config
-export default <IConfig>{
+export default {
   templates: [
     {
       templateName: "index",
