@@ -1,3 +1,12 @@
+## Limitations
+
+- local development doesn't allow to use path aliases because ts-node in esm mode could not resolve path aliases
+
+## Requirements
+
+- every import need to contain '.js' extension in order to be readable for Node16 ts module builder
+- in order to use commonjs you need to provide extension '.cjs'
+
 ## Development
 
 run local application: `npm run local <COMMAND> <ARGS>`
@@ -20,3 +29,4 @@ build local application:
 ## Merge
 
 1. If publicated version passes tests bump major, minor or patch version of repository and publish again
+   -r tsconfig-paths/register

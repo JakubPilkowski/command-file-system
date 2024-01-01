@@ -1,5 +1,5 @@
-import { Input } from "./Input";
-import { Output } from "./Output";
+import { Input } from "./Input.js";
+import { Output } from "./Output.js";
 
 export interface IFileTemplate {
   /**

@@ -1,7 +1,5 @@
-import isFileTemplate from "utils/isFileTemplate";
-
-import ICommand from "./ICommand";
-import { ITemplate } from "./ITemplateV2";
+import ICommand from "./ICommand.js";
+import { ITemplate } from "./ITemplateV2.js";
 
 // TODO: create commands
 export default function createCommands(

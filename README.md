@@ -4,19 +4,17 @@ Cli tool for creating files based on given templates.
 
 ## Usage
 
-To start work with ` cfs`` you need to provide set of templates you want  `cfs` to generate for you.
+To start work with `cfs` you need to provide set of templates you want `cfs` to generate for you.
 
-In order to manage `cfs` templates create `cfs.config.ts` file in root directory
+In order to manage `cfs` templates create `cfs.config.js` or `cfs.config.cjs` file.
 
-#### Example
+#### Example - es module - cfs.config.js
 
 ```
-import { IConfig } from "cfs/core/IConfig";
-
 const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
 export default {{name}};
 `;
-export default <IConfig>{
+export default {
   templates: [
     {
       templateName: "index",
@@ -27,15 +25,41 @@ export default <IConfig>{
 };
 ```
 
-Right now you can easily create index template.
+#### Example - commonjs - cfs.config.cjs
 
-#### Run
+```
+const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
+export default {{name}};
+`;
+
+module.exports = {
+  templates: [
+    {
+      templateName: "index",
+      templateAliases: ["i", "idx", "id"],
+      template: indexTemplate,
+    },
+  ],
+};
+```
+
+Right now you can easily generate your first template!
+
+## File Generator
+
+In order to generate your template file you need run command:
+
+```
+cfs generate-file <TEMPLATE_NAME> <TEMPLATE_ARGS>
+```
+
+For example, the output for:
 
 ```
 cfs generate-file index testIndex.ts
 ```
 
-The output should look like this:
+should look like this:
 
 ```
 import index from './testIndex.ts';
