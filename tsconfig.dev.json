@@ -5,13 +5,12 @@
     "removeComments": true,
     "sourceMap": false,
     "target": "ES2020",
-    "outDir": "bin",
+    "outDir": "./",
     "esModuleInterop": true,
     "moduleResolution": "Node16",
     "module": "Node16",
-    "baseUrl": "./src",
-    "skipLibCheck": true
+    "baseUrl": "./src"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/cfs.config.js", "src/cfs.config.cjs"]
+  "exclude": ["node_modules"]
 }
