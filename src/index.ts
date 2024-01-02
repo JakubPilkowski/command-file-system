@@ -5,9 +5,7 @@ import { Cache } from "file-system-cache";
 import path from "path";
 import * as fs from "fs";
 import { glob } from "glob";
-import { fileURLToPath, pathToFileURL } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
+import { pathToFileURL } from "url";
 
 import { CONSTANTS } from "./core/CONSTANTS.js";
 import readConfig from "./core/readConfig.js";
@@ -22,8 +20,7 @@ const yargsInstance = yargs(hideBin(process.argv))
   .usage("$0 <cmd> [args]");
 
 const cache = new Cache({
-  basePath: "./.cache/cfs", // (optional) Path where cache files are stored (default).
-  ns: "my-namespace", // (optional) A grouping namespace for items.
+  basePath: "node_modules/.cache/cfs", // (optional) Path where cache files are stored (default).
   hash: "sha1", // (optional) A hashing algorithm used within the cache key.
   ttl: 0, // (optional) A time-to-live (in secs) on how long an item remains cached.
 });
