@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    // TODO: add declaration files to build
+    // "declaration": false,
+    // "declarationDir": "",
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": true,
