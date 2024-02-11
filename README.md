@@ -2,6 +2,10 @@
 
 Cli tool for creating files based on given templates.
 
+# Warning!!!
+
+This library is in development stage and does not cover most of expected features
+
 ## Usage
 
 To start work with `cfs` you need to provide set of templates you want `cfs` to generate for you.
@@ -14,6 +18,8 @@ In order to manage `cfs` templates create `cfs.config.js` or `cfs.config.cjs` fi
 const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
 export default {{name}};
 `;
+
+/** @type {import('command-file-system').IConfig} */
 export default {
   templates: [
     {
@@ -32,6 +38,7 @@ const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
 export default {{name}};
 `;
 
+/** @type {import('command-file-system').IConfig} */
 module.exports = {
   templates: [
     {

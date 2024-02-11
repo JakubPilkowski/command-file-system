@@ -1,12 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    // TODO: tsup spike (in progress)
-    // TODO: package.json homepage spike
-    // TODO: https://www.npmjs.com/package/@arethetypeswrong/cli
-    // TODO: add types to package.json (added)
-    // TODO: exports package.json spike (spike done)
-    // TODO: files package.json spike (probably not needed)
     "declarationDir": "./dist",
     "noImplicitAny": false,
     "noEmitOnError": true,
