@@ -2,10 +2,18 @@
   "name": "command-file-system",
   "version": "0.0.8",
   "description": "Cli tool for automatic file and catalogs generation based on given template",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "bin": {
-    "cfs": "./dist/index.js"
+    "cfs": "./dist/index.cjs"
   },
   "scripts": {
     "local": "ts-node --esm ./src/index.ts --project tsconfig.dev.json",

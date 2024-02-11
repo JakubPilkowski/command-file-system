@@ -21,10 +21,7 @@
    6.4 - fix index.js could not resolve esm imports and exports - done
    6.5 - remove type modules from build - done
 7. add types declaration to build file - in progress - done
-8. minify production result (esm and commonjs build with dist folder and exports package.json config (maybe types export))
-   // TODO: https://www.npmjs.com/package/@arethetypeswrong/cli
-   // TODO: exports package.json spike (spike done)
-   // TODO: files package.json spike (probably not needed)
+8. minify production result (esm and commonjs build with dist folder and exports package.json config (maybe types export)) - done
 9. map variables
 10. plugins spike (vscode, typescript, react plugins) (architecture spike -> which to use OOP/plugins/monads)
 11. implement simple tests
@@ -36,10 +33,13 @@
 14. benchmarking spike (V2)
 15. Rust implementation (V2)
 16. watch command spike (V2)
-17. catalog generator (V2)
-18. config merge (multiple configs) (V2)
+17. AI integration spike (V2)
+18. catalog generator (V2)
+19. config merge (multiple configs) (V2)
 
 V2/V3 ideas
+// TODO: unbuild spike (library builder)
+// TODO: https://www.npmjs.com/package/@arethetypeswrong/cli
 // TODO: init command which will create base config
 // TODO: add logging support
 // TODO: verbose mode
