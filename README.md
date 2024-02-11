@@ -12,7 +12,10 @@ To start work with `cfs` you need to provide set of templates you want `cfs` to 
 
 In order to manage `cfs` templates create `cfs.config.js` or `cfs.config.cjs` file.
 
-#### Example - es module - cfs.config.js
+#### Example - es module
+
+1. Set project type to `module` in `package.json` file. Commonjs cannot resolver module files
+2. Provide `cfs.config.js` file
 
 ```
 const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
@@ -31,7 +34,10 @@ export default {
 };
 ```
 
-#### Example - commonjs - cfs.config.cjs
+#### Example - commonjs
+
+1. Either commonjs and esm modules support resolving commonjs export so there is no need to change project configuration.
+2. Provide `cfs.config.cjs` file
 
 ```
 const indexTemplate = `import {{name}} from './{{name}}{{ext}}';
@@ -50,7 +56,9 @@ module.exports = {
 };
 ```
 
-Right now you can easily generate your first template!
+Do not mix both esm and commonjs configs.
+
+After those steps you can easily generate your first template!
 
 ## File Generator
 

@@ -222,7 +222,7 @@ yargsInstance
 
     // custom pattern as option
     // cfs.ignore.json for easy exclude and include detection
-    const configFiles = await glob(["**/cfs.config.js", "**/cfs.config.cjs"], {
+    const configFiles = await glob(["**/cfs.config.cjs", "**/cfs.config.js"], {
       ignore: "node_modules/**",
       absolute: true,
     });

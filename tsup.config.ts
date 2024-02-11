@@ -6,5 +6,5 @@ export default defineConfig({
   dts: "src/index.ts",
   clean: true,
   minify: true,
-  // legacyOutput: true,
+  shims: true,
 });
