@@ -1,6 +1,6 @@
 {
   "name": "command-file-system",
-  "version": "0.0.9-alpha.1.0",
+  "version": "0.0.9",
   "description": "Cli tool for automatic file and catalogs generation based on given template",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
