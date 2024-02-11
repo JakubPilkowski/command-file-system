@@ -2,7 +2,7 @@ import type {
   ICatalogTemplate,
   IFileTemplate,
   ITemplate,
-} from "../core/ITemplateV2.js";
+} from "../types/external.js";
 
 export default function isFileTemplate(
   template: ITemplate

@@ -1,20 +1,25 @@
 {
   "compilerOptions": {
-    // TODO: add declaration files to build
-    // "declaration": false,
-    // "declarationDir": "",
+    "declaration": true,
+    // TODO: tsup spike (in progress)
+    // TODO: package.json homepage spike
+    // TODO: https://www.npmjs.com/package/@arethetypeswrong/cli
+    // TODO: add types to package.json (added)
+    // TODO: exports package.json spike (spike done)
+    // TODO: files package.json spike (probably not needed)
+    "declarationDir": "./dist",
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": false,
     "target": "ES2020",
-    "outDir": "./",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "moduleResolution": "Node16",
     "module": "Node16",
     "baseUrl": "./src",
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/cfs.config.js", "src/cfs.config.cjs"]
+  "include": ["src/**/*", "cfs.config.js"],
+  "exclude": ["node_modules", "cfs.config.js", "src/cfs.config.cjs"]
 }
