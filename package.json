@@ -1,6 +1,6 @@
 {
   "name": "command-file-system",
-  "version": "0.0.8-alpha.1.0",
+  "version": "0.0.8",
   "description": "Cli tool for automatic file and catalogs generation based on given template",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,8 +9,7 @@
   },
   "scripts": {
     "local": "ts-node --esm ./src/index.ts --project tsconfig.dev.json",
-    "build": "tsc",
-    "build:tsup": "tsup"
+    "build": "tsup"
   },
   "repository": {
     "type": "git",
