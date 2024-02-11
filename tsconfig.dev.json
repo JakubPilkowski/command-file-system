@@ -4,12 +4,17 @@
     "noEmitOnError": true,
     "removeComments": true,
     "sourceMap": false,
-    "target": "ES2020",
     "outDir": "./",
+    "baseUrl": "./src",
+    // Node v16 configuration
+    "lib": ["ES2021"],
+    "target": "ES2021",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "moduleResolution": "Node16",
     "module": "Node16",
-    "baseUrl": "./src"
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

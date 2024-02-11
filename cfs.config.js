@@ -1,4 +1,4 @@
-const tsIndexTemplate = `import {{name}} from './{{name}}{{ext}}.js';
+const tsIndexTemplate = `import {{name}} from './{{name}}{{ext}}';
 
 export default {{name}};
 `;

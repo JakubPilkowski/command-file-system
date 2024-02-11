@@ -97,7 +97,10 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
       return false;
     }
 
-    const templateNames = new Set([template.name, ...template.templateAliases]);
+    const templateNames = new Set([
+      template.name,
+      ...(template.templateAliases || []),
+    ]);
 
     return templateTuple.find((_templateTupleName) =>
       templateNames.has(_templateTupleName)
@@ -182,7 +185,10 @@ async function readFromConfig(
           )}. Template with name ${templateName} already exist`
         );
       }
-      fileTemplateNames.set(templateName, [templateName, ...templateAliases]);
+      fileTemplateNames.set(templateName, [
+        templateName,
+        ...(templateAliases || []),
+      ]);
     }
   }
 
@@ -216,7 +222,7 @@ yargsInstance
 
     // custom pattern as option
     // cfs.ignore.json for easy exclude and include detection
-    const configFiles = await glob(["**/cfs.config.js", "**/cfs.config.cjs"], {
+    const configFiles = await glob(["**/cfs.config.cjs", "**/cfs.config.js"], {
       ignore: "node_modules/**",
       absolute: true,
     });
