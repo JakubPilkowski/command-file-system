@@ -1,4 +1,4 @@
-import { ICatalogTemplate, ITemplate } from "core/ITemplateV2.js";
+import { ICatalogTemplate, ITemplate } from "../types/external.js";
 
 export default function isCatalogTemplate(
   template: ITemplate

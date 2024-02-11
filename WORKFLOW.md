@@ -17,23 +17,27 @@
 6. read config from external projects - in progress
    6.1 - remove cfs.config.js from build - done
    6.2 - remove bin directory - done
-   6.3 - fix cache directory
+   6.3 - fix cache directory - done
    6.4 - fix index.js could not resolve esm imports and exports - done
-   6.5 - remove type modules from build
-7. add types declaration to build file
-8. benchmark script
-9. watch command spike
-10. plugins spike (vscode, typescript, react plugins)
-11. implement simple tests (end of V1 version)
-12. OOP project
+   6.5 - remove type modules from build - done
+7. add types declaration to build file - in progress - done
+8. minify production result (esm and commonjs build with dist folder and exports package.json config (maybe types export))
+   // TODO: https://www.npmjs.com/package/@arethetypeswrong/cli
+   // TODO: exports package.json spike (spike done)
+   // TODO: files package.json spike (probably not needed)
+9. map variables
+10. plugins spike (vscode, typescript, react plugins) (architecture spike -> which to use OOP/plugins/monads)
+11. implement simple tests
 
     V2
 
-13. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
-14. vscode extension spike (idk if i should do it now) (V2)
+12. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
+13. vscode extension spike (idk if i should do it now) (V2)
+14. benchmarking spike (V2)
 15. Rust implementation (V2)
-16. catalog generator (V2)
-17. config merge (multiple configs) (V2)
+16. watch command spike (V2)
+17. catalog generator (V2)
+18. config merge (multiple configs) (V2)
 
 V2/V3 ideas
 // TODO: init command which will create base config

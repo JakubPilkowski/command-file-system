@@ -13,7 +13,9 @@ import readConfig from "./core/readConfig.js";
 import isFileTemplate from "./utils/isFileTemplate.js";
 import mapVariables from "./utils/mapVariables.js";
 
-import type { IFileTemplate } from "core/ITemplateV2.js";
+import { IFileTemplate } from "./types/external.js";
+
+export * from "./types/external.js";
 
 const yargsInstance = yargs(hideBin(process.argv))
   .scriptName(CONSTANTS.CLI_NAME)
@@ -25,7 +27,7 @@ const cache = new Cache({
   ttl: 0, // (optional) A time-to-live (in secs) on how long an item remains cached.
 });
 
-type GenerateFileArgs = {
+export type GenerateFileArgs = {
   $1: string;
   $2: string;
   templates: TemplateTuple[];
@@ -60,7 +62,7 @@ const builder = (yargs: Argv) => {
   yargs.example("cfs gf index", `generate 'index' template`);
 };
 
-// TODO: implement as monads
+// TODO: implement as monads if possible
 const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   console.log("Start generator...");
 
@@ -155,7 +157,7 @@ async function readFromCache(configFilePath: string): Promise<TemplateTuple[]> {
   }
 }
 
-type TemplateTuple = string[];
+export type TemplateTuple = string[];
 
 async function readFromConfig(
   configFilePath: string
@@ -204,6 +206,7 @@ yargsInstance
   //   builder,
   //   generate
   // )
+  // TODO: make atomic functions instead wall of code
   // TODO: add logging support
   // TODO: verbose mode
   // TODO: no cache mode

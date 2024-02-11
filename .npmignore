@@ -6,6 +6,9 @@ index.ts
 ASSUMPTIONS*
 README_DEV.md
 tsconfig.dev.json
+tsconfig.json
 WORKFLOW.md
 bin
 tsconfig.json
+tsup.config.ts
+cfs.config.js

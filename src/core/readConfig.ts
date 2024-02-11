@@ -1,4 +1,4 @@
-import { IConfig } from "./IConfig.js";
+import { IConfig } from "../types/external.js";
 
 // TODO: implement recursion or monad, will see
 export default async function readConfig(

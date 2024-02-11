@@ -1,5 +1,4 @@
-import ICommand from "./ICommand.js";
-import { ITemplate } from "./ITemplateV2.js";
+import { ITemplate, ICommand } from "../types/external.js";
 
 // TODO: create commands
 export default function createCommands(
