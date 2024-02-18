@@ -22,20 +22,21 @@
    6.5 - remove type modules from build - done
 7. add types declaration to build file - in progress - done
 8. minify production result (esm and commonjs build with dist folder and exports package.json config (maybe types export)) - done
-9. map variables
-10. plugins spike (vscode, typescript, react plugins) (architecture spike -> which to use OOP/plugins/monads)
-11. implement simple tests
+9. plugins spike (vscode, typescript, react plugins) (architecture spike -> which to use OOP/plugins/monads)
+10. lerna spike
+11. map variables
+12. implement unit tests
 
     V2
 
-12. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
-13. vscode extension spike (idk if i should do it now) (V2)
-14. benchmarking spike (V2)
-15. Rust implementation (V2)
-16. watch command spike (V2)
-17. AI integration spike (V2)
-18. catalog generator (V2)
-19. config merge (multiple configs) (V2)
+13. split into config (include, exclude) and templates (plugins, templates, etc) (V2)
+14. vscode extension spike (idk if i should do it now) (V2)
+15. benchmarking spike (V2)
+16. Rust implementation (V2)
+17. watch command spike (V2)
+18. AI integration spike (V2)
+19. catalog generator (V2)
+20. config merge (multiple configs) (V2)
 
 V2/V3 ideas
 // TODO: unbuild spike (library builder)

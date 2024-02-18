@@ -5,7 +5,7 @@ import { Cache } from "file-system-cache";
 import path from "path";
 import * as fs from "fs";
 import { glob } from "glob";
-import { pathToFileURL } from "url";
+import { pathToFileURL, fileURLToPath } from "url";
 
 import { CONSTANTS } from "./core/CONSTANTS.js";
 import readConfig from "./core/readConfig.js";
@@ -16,6 +16,8 @@ import mapVariables from "./utils/mapVariables.js";
 import { IFileTemplate } from "./types/external.js";
 
 export * from "./types/external.js";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const yargsInstance = yargs(hideBin(process.argv))
   .scriptName(CONSTANTS.CLI_NAME)
@@ -148,6 +150,7 @@ const generate = async (args: ArgumentsCamelCase<GenerateFileArgs>) => {
   console.log("Successfully generate file");
 };
 
+// TODO: move to CfsCliReader
 async function readFromCache(configFilePath: string): Promise<TemplateTuple[]> {
   const cacheFileTemplates = (await cache.get("fileTemplates")) as
     | TemplateTuple[]
@@ -162,6 +165,7 @@ async function readFromCache(configFilePath: string): Promise<TemplateTuple[]> {
 
 export type TemplateTuple = string[];
 
+// TODO: move to CfsCliReader
 async function readFromConfig(
   configFilePath: string
 ): Promise<TemplateTuple[]> {
@@ -222,6 +226,8 @@ yargsInstance
 
     // custom pattern as option
     // cfs.ignore.json for easy exclude and include detection
+
+    // TODO: move to CfsCliReader
     const configFiles = await glob(["**/cfs.config.cjs", "**/cfs.config.js"], {
       ignore: "node_modules/**",
       absolute: true,
